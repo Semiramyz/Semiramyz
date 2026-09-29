@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/juan-sebastian-pineda-santafe-737965437/"><img src="https://img.shields.io/badge/LinkedIn-8B0000?style=for-the-badge&logo=linkedin&logoColor=E8D5C4" alt="LinkedIn"></a>
-  <a href="mailto:jspineda@unbosque.edu.co"><img src="https://img.shields.io/badge/Outlook-5C0000?style=for-the-badge&logo=microsoftoutlook&logoColor=E8D5C4" alt="Outlook"></a>
-  <a href="mailto:js0207367@gmail.com"><img src="https://img.shields.io/badge/Gmail-B3001B?style=for-the-badge&logo=gmail&logoColor=E8D5C4" alt="Gmail"></a>
+  <a href="https://www.linkedin.com/in/juan-sebastian-pineda-santafe-737965437/"><img src="https://img.shields.io/badge/LinkedIn-A9C1CF?style=for-the-badge&logo=linkedin&logoColor=4A4740" alt="LinkedIn"></a>
+  <a href="mailto:jspineda@unbosque.edu.co"><img src="https://img.shields.io/badge/Outlook-B7AFCF?style=for-the-badge&logo=microsoftoutlook&logoColor=4A4740" alt="Outlook"></a>
+  <a href="mailto:js0207367@gmail.com"><img src="https://img.shields.io/badge/Gmail-D4A5A5?style=for-the-badge&logo=gmail&logoColor=4A4740" alt="Gmail"></a>
 </p>
 
 <br>
@@ -68,17 +68,17 @@ Soy estudiante de **Ingeniería de Sistemas** en la Universidad El Bosque y cons
 
 <p align="center"><b>Lenguajes</b></p>
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cs,cpp,ts,js,java,py,go,php&theme=dark" alt="C#, C++, TypeScript, JavaScript, Java, Python, Go, PHP">
+  <img src="https://skillicons.dev/icons?i=cs,cpp,ts,js,java,py,go,php&theme=light" alt="C#, C++, TypeScript, JavaScript, Java, Python, Go, PHP">
 </p>
 
 <p align="center"><b>Frameworks</b></p>
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=dotnet,angular,react,nodejs,express,electron,spring,fastapi,flask,tensorflow&theme=dark" alt=".NET, Angular, React, Node.js, Express, Electron, Spring Boot, FastAPI, Flask, TensorFlow">
+  <img src="https://skillicons.dev/icons?i=dotnet,angular,react,nodejs,express,electron,spring,fastapi,flask,tensorflow&theme=light" alt=".NET, Angular, React, Node.js, Express, Electron, Spring Boot, FastAPI, Flask, TensorFlow">
 </p>
 
 <p align="center"><b>Bases de datos, DevOps y herramientas</b></p>
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=mysql,sqlite,docker,githubactions,aws,nginx,linux,cmake,git&theme=dark" alt="MySQL, SQLite, Docker, GitHub Actions, AWS, nginx, Linux, CMake, Git">
+  <img src="https://skillicons.dev/icons?i=mysql,sqlite,docker,githubactions,aws,nginx,linux,cmake,git&theme=light" alt="MySQL, SQLite, Docker, GitHub Actions, AWS, nginx, Linux, CMake, Git">
 </p>
 
 <br>
@@ -95,7 +95,7 @@ Soy estudiante de **Ingeniería de Sistemas** en la Universidad El Bosque y cons
 Estoy disponible para **práctica profesional**. Si mi perfil encaja con su equipo, con gusto conversamos.
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/juan-sebastian-pineda-santafe-737965437/"><img src="https://img.shields.io/badge/LinkedIn-Juan%20Sebasti%C3%A1n%20Pineda-8B0000?style=flat-square&logo=linkedin&logoColor=E8D5C4" alt="LinkedIn"></a>
-  <a href="mailto:jspineda@unbosque.edu.co"><img src="https://img.shields.io/badge/Outlook-jspineda@unbosque.edu.co-5C0000?style=flat-square&logo=microsoftoutlook&logoColor=E8D5C4" alt="Correo institucional"></a>
-  <a href="mailto:js0207367@gmail.com"><img src="https://img.shields.io/badge/Gmail-js0207367@gmail.com-B3001B?style=flat-square&logo=gmail&logoColor=E8D5C4" alt="Gmail"></a>
+  <a href="https://www.linkedin.com/in/juan-sebastian-pineda-santafe-737965437/"><img src="https://img.shields.io/badge/LinkedIn-Juan%20Sebasti%C3%A1n%20Pineda-A9C1CF?style=flat-square&logo=linkedin&logoColor=4A4740" alt="LinkedIn"></a>
+  <a href="mailto:jspineda@unbosque.edu.co"><img src="https://img.shields.io/badge/Outlook-jspineda@unbosque.edu.co-B7AFCF?style=flat-square&logo=microsoftoutlook&logoColor=4A4740" alt="Correo institucional"></a>
+  <a href="mailto:js0207367@gmail.com"><img src="https://img.shields.io/badge/Gmail-js0207367@gmail.com-D4A5A5?style=flat-square&logo=gmail&logoColor=4A4740" alt="Gmail"></a>
 </p>

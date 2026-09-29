@@ -27,17 +27,20 @@ USER = os.environ.get("GH_USER", "Semiramyz")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 TZ = dt.timezone(dt.timedelta(hours=-5))  # Colombia (UTC−5, sin horario de verano)
 
-# ─── Paleta ────────────────────────────────────────────────────────────────
-BG = "#0D0D0D"
-BORDER = "#3B0A0A"
-CRIMSON = "#B3001B"
-CRIMSON_LIGHT = "#E23A4E"
-BLOOD = "#8B0000"
-BONE = "#E8D5C4"
-TEXT = "#B8A89C"
-MUTED = "#7A6A5E"
-LANG_COLORS = ["#B3001B", "#E23A4E", "#8B0000", "#D4C5B0", "#9E6B63", "#C98A7D", "#5E0B12", "#6B5A55"]
-HEAT = ["#1C1616", "#4A0A0F", "#7A0E17", "#B3001B", "#E23A4E"]
+# ─── Paleta (tonos papel, grises cálidos y pasteles) ───────────────────────
+PAPER = "#EFEBE0"
+LINE = "#D2CBBA"
+INK = "#4A4740"
+TEXT = "#6E6A5F"
+MUTED = "#9C968A"
+SAGE, SAGE_D = "#A8B5A2", "#6F8069"
+LAVENDER, LAVENDER_D = "#B7AFCF", "#7A7196"
+ROSE, ROSE_D = "#D4A5A5", "#9A6666"
+SKY, SKY_D = "#A9C1CF", "#62808F"
+SAND = "#D8C9A7"
+LANG_COLORS = ["#A8B5A2", "#B7AFCF", "#D4A5A5", "#A9C1CF", "#D8C9A7", "#C4B5A5", "#9FBFB8", "#BDB6A8"]
+HEAT = ["#E2DDCF", "#CFD6C8", "#B2C0AC", "#8FA38A", "#6C8067"]
+BULLETS = [SAGE, LAVENDER, ROSE, SKY]
 DAYS_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 MONTHS_ES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
 
@@ -45,7 +48,7 @@ MONTHS_ES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct
 # ─── Utilidades SVG ────────────────────────────────────────────────────────
 def font_css(*names):
     faces = {
-        "bebas": ("Bebas", "BebasNeue.woff2", 400),
+        "serif": ("Serif", "CormorantGaramond-SemiBold.woff2", 600),
         "mono": ("Mono", "JetBrainsMono-Regular.woff2", 400),
         "monob": ("Mono", "JetBrainsMono-Bold.woff2", 700),
     }
@@ -57,12 +60,12 @@ def font_css(*names):
             f"@font-face{{font-family:'{fam}';font-weight:{w};"
             f"src:url(data:font/woff2;base64,{data}) format('woff2');}}"
         )
-    css.append(".b{font-family:'Bebas','Impact','Arial Narrow',sans-serif;letter-spacing:1px}")
+    css.append(".b{font-family:'Serif','Georgia','Times New Roman',serif;font-weight:600}")
     css.append(".m{font-family:'Mono','Consolas','Courier New',monospace}")
     return "".join(css)
 
 
-def svg_doc(w, h, body, fonts=("bebas", "mono", "monob"), extra_css="", title=""):
+def svg_doc(w, h, body, fonts=("serif", "mono", "monob"), extra_css="", title=""):
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
         f'role="img" aria-label="{escape(title)}"><title>{escape(title)}</title>'
@@ -72,17 +75,18 @@ def svg_doc(w, h, body, fonts=("bebas", "mono", "monob"), extra_css="", title=""
 
 def card_frame(w, h):
     return (
-        f'<rect x="0.5" y="0.5" width="{w-1}" height="{h-1}" rx="10" fill="{BG}" stroke="{BORDER}"/>'
-        f'<defs><linearGradient id="ln" x1="0" x2="1"><stop offset="0" stop-color="{CRIMSON}"/>'
-        f'<stop offset="1" stop-color="{CRIMSON}" stop-opacity="0"/></linearGradient></defs>'
+        f'<rect x="0.5" y="0.5" width="{w-1}" height="{h-1}" rx="12" fill="{PAPER}" stroke="{LINE}"/>'
+        f'<rect x="6.5" y="6.5" width="{w-13}" height="{h-13}" rx="8" fill="none" stroke="{LINE}" stroke-opacity=".55"/>'
     )
 
 
 def card_title(w, title, right=""):
-    s = f'<text x="24" y="40" class="b" font-size="26" fill="{BONE}">{escape(title)}</text>'
+    s = f'<rect x="24" y="30" width="8" height="8" fill="{INK}" opacity=".7" transform="rotate(45 28 34)"/>'
+    s += f'<text x="42" y="41" class="b" font-size="25" fill="{INK}" letter-spacing=".5">{escape(title)}</text>'
     if right:
-        s += f'<text x="{w-24}" y="38" class="m" font-size="11" fill="{MUTED}" text-anchor="end">{escape(right)}</text>'
-    s += f'<rect x="24" y="52" width="{w-48}" height="1.5" fill="url(#ln)"/>'
+        s += f'<text x="{w-24}" y="39" class="m" font-size="11" fill="{MUTED}" text-anchor="end">{escape(right)}</text>'
+    s += f'<rect x="24" y="53" width="{w-48}" height="1" fill="{LINE}"/>'
+    s += f'<rect x="24" y="52" width="46" height="3" fill="{SAGE}"/>'
     return s
 
 
@@ -214,10 +218,10 @@ def stats_card(d):
         col, row = i % 2, i // 2
         x0 = 24 + col * 196
         y = 88 + row * 34
-        body += f'<rect x="{x0}" y="{y-9}" width="6" height="6" fill="{CRIMSON}"/>'
+        body += f'<circle cx="{x0+3}" cy="{y-4}" r="3.5" fill="{BULLETS[i % 4]}"/>'
         body += f'<text x="{x0+14}" y="{y}" class="m" font-size="12.5" fill="{TEXT}">{escape(label)}</text>'
         body += (f'<text x="{x0+176}" y="{y}" class="m" font-size="14" font-weight="700" '
-                 f'fill="{BONE}" text-anchor="end">{escape(value)}</text>')
+                 f'fill="{INK}" text-anchor="end">{escape(value)}</text>')
     return svg_doc(w, h, body, title="Resumen de actividad en GitHub")
 
 
@@ -227,9 +231,9 @@ def languages_card(d):
     top = d["langs"].most_common()
     if len(top) > 8:
         top = top[:7] + [("Otros", sum(s for _, s in top[7:]))]
-    body = card_frame(w, h) + card_title(w, "Lenguajes más usados", "por volumen de código")
+    body = card_frame(w, h) + card_title(w, "Lenguajes más usados", "por código")
     body += '<defs><clipPath id="bar"><rect x="24" y="70" width="372" height="10" rx="5"/></clipPath></defs>'
-    body += f'<g clip-path="url(#bar)"><rect x="24" y="70" width="372" height="10" fill="{BORDER}"/>'
+    body += f'<g clip-path="url(#bar)"><rect x="24" y="70" width="372" height="10" fill="{LINE}"/>'
     x = 24.0
     for i, (_, size) in enumerate(top):
         bw = 372 * size / total
@@ -242,7 +246,7 @@ def languages_card(d):
         y = 112 + row * 26
         pct = 100 * size / total
         body += f'<circle cx="{x0+5}" cy="{y-4}" r="5" fill="{LANG_COLORS[i]}"/>'
-        body += f'<text x="{x0+16}" y="{y}" class="m" font-size="12.5" fill="{BONE}">{escape(lang[:14])}</text>'
+        body += f'<text x="{x0+16}" y="{y}" class="m" font-size="12.5" fill="{INK}">{escape(lang[:14])}</text>'
         body += (f'<text x="{x0+176}" y="{y}" class="m" font-size="12" fill="{MUTED}" '
                  f'text-anchor="end">{pct:.1f}%</text>')
     if not top:
@@ -293,18 +297,18 @@ def hours_card(d):
     hours = [d["hours"].get(i, 0) for i in range(24)]
     total = sum(hours)
     body = card_frame(w, h) + card_title(w, "Horario de trabajo", f"commits por hora · UTC−5 · {fmt(total)} commits")
-    body += (f'<defs><linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{CRIMSON}"/>'
-             f'<stop offset="1" stop-color="{BLOOD}" stop-opacity="0.55"/></linearGradient>'
-             f'<linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{CRIMSON_LIGHT}"/>'
-             f'<stop offset="1" stop-color="{CRIMSON}"/></linearGradient></defs>')
+    body += (f'<defs><linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{LAVENDER}"/>'
+             f'<stop offset="1" stop-color="{SKY}" stop-opacity="0.7"/></linearGradient>'
+             f'<linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{ROSE}"/>'
+             f'<stop offset="1" stop-color="{SAND}"/></linearGradient></defs>')
     left, right, base, top = 60, w - 36, 176, 78
     slot = (right - left) / 24
     mx = max(hours) or 1
     peak = hours.index(max(hours)) if total else -1
     for frac in (0.5, 1.0):
         gy = base - (base - top) * frac
-        body += f'<line x1="{left}" y1="{gy}" x2="{right}" y2="{gy}" stroke="{BORDER}" stroke-dasharray="3 5"/>'
-    body += f'<line x1="{left}" y1="{base}" x2="{right}" y2="{base}" stroke="{BORDER}"/>'
+        body += f'<line x1="{left}" y1="{gy}" x2="{right}" y2="{gy}" stroke="{LINE}" stroke-dasharray="3 5"/>'
+    body += f'<line x1="{left}" y1="{base}" x2="{right}" y2="{base}" stroke="{LINE}"/>'
     for i, n in enumerate(hours):
         bh = (base - top) * n / mx
         x = left + i * slot + slot * 0.18
@@ -315,7 +319,7 @@ def hours_card(d):
                      f"<title>{i:02d}:00 · {n} commits</title></rect>")
         if i == peak:
             body += (f'<text x="{x+bw/2:.1f}" y="{base-bh-7:.1f}" class="m" font-size="11" font-weight="700" '
-                     f'fill="{BONE}" text-anchor="middle">{n}</text>')
+                     f'fill="{INK}" text-anchor="middle">{n}</text>')
         if i % 3 == 0:
             body += (f'<text x="{x+bw/2:.1f}" y="{base+17}" class="m" font-size="10.5" fill="{MUTED}" '
                      f'text-anchor="middle">{i:02d}h</text>')
@@ -348,7 +352,7 @@ def build_metrics(data=None):
 
 
 # ─── Recursos estáticos (encabezado, títulos, tarjetas de proyectos) ───────
-def text_width(text, size, file="BebasNeue.woff2", letter_spacing=1.0):
+def text_width(text, size, file="CormorantGaramond-SemiBold.woff2", letter_spacing=1.0):
     from fontTools.ttLib import TTFont  # solo se necesita para los recursos estáticos
     f = TTFont(FONTS / file)
     cmap, hmtx, upm = f.getBestCmap(), f["hmtx"], f["head"].unitsPerEm
@@ -358,62 +362,68 @@ def text_width(text, size, file="BebasNeue.woff2", letter_spacing=1.0):
 
 def header_svg():
     w, h = 1200, 330
-    name = "JUAN SEBASTIÁN PINEDA SANTAFÉ"
-    slashes = "".join(
-        f'<line x1="{x}" y1="-20" x2="{x-190}" y2="{h+20}" stroke="{CRIMSON}" '
-        f'stroke-width="{sw}" opacity="{op}"/>'
-        for x, sw, op in [(900, 1, .18), (955, 3, .10), (1010, 1, .22), (1070, 6, .07), (1120, 1, .16), (1175, 2, .12), (1240, 1, .2)]
-    )
+    name = "Juan Sebastián Pineda Santafé"
+    grid = "".join(f'<line x1="{x}" y1="0" x2="{x}" y2="{h}" stroke="{LINE}" stroke-opacity=".35"/>' for x in range(40, w, 40))
+    grid += "".join(f'<line x1="0" y1="{y}" x2="{w}" y2="{y}" stroke="{LINE}" stroke-opacity=".35"/>' for y in range(40, h, 40))
     css = (
-        "@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}"
-        ".a1{animation:f .9s ease-out both}.a2{animation:f .9s .25s ease-out both}.a3{animation:f .9s .5s ease-out both}"
-        "@keyframes p{0%,100%{opacity:1}50%{opacity:.25}}.dot{animation:p 2.2s ease-in-out infinite}"
+        "@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}"
+        ".a1{animation:f 1.2s ease-out both}.a2{animation:f 1.2s .3s ease-out both}.a3{animation:f 1.2s .6s ease-out both}"
+        "@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}.dot{animation:p 3s ease-in-out infinite}"
+        "@keyframes d{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}.fl{animation:d 7s ease-in-out infinite}"
     )
     body = f"""
 <defs>
   <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#050505"/><stop offset=".55" stop-color="#120305"/><stop offset="1" stop-color="#2A0508"/>
+    <stop offset="0" stop-color="#F4F1E9"/><stop offset="1" stop-color="#E6E0D1"/>
   </linearGradient>
-  <radialGradient id="glow" cx=".82" cy=".45" r=".55">
-    <stop offset="0" stop-color="{CRIMSON}" stop-opacity=".35"/><stop offset="1" stop-color="{CRIMSON}" stop-opacity="0"/>
-  </radialGradient>
-  <linearGradient id="ul" x1="0" x2="1"><stop offset="0" stop-color="{CRIMSON}"/><stop offset="1" stop-color="{CRIMSON}" stop-opacity="0"/></linearGradient>
-  <clipPath id="c"><rect width="{w}" height="{h}" rx="14"/></clipPath>
+  <radialGradient id="r1"><stop offset="0" stop-color="{LAVENDER}" stop-opacity=".55"/><stop offset="1" stop-color="{LAVENDER}" stop-opacity="0"/></radialGradient>
+  <radialGradient id="r2"><stop offset="0" stop-color="{SAGE}" stop-opacity=".55"/><stop offset="1" stop-color="{SAGE}" stop-opacity="0"/></radialGradient>
+  <radialGradient id="r3"><stop offset="0" stop-color="{ROSE}" stop-opacity=".45"/><stop offset="1" stop-color="{ROSE}" stop-opacity="0"/></radialGradient>
+  <clipPath id="c"><rect width="{w}" height="{h}" rx="16"/></clipPath>
 </defs>
 <g clip-path="url(#c)">
   <rect width="{w}" height="{h}" fill="url(#g)"/>
-  <rect width="{w}" height="{h}" fill="url(#glow)"/>
-  {slashes}
-  <rect x="0" y="0" width="6" height="{h}" fill="{CRIMSON}"/>
-  <rect x="0" y="{h-3}" width="{w}" height="3" fill="url(#ul)"/>
+  {grid}
+  <circle cx="1010" cy="95" r="190" fill="url(#r1)"/>
+  <circle cx="1120" cy="270" r="170" fill="url(#r2)"/>
+  <circle cx="870" cy="300" r="140" fill="url(#r3)"/>
+  <g class="fl" fill="none" stroke="{INK}" stroke-opacity=".35">
+    <rect x="1045" y="120" width="70" height="70" transform="rotate(45 1080 155)"/>
+    <rect x="1063" y="138" width="34" height="34" transform="rotate(45 1080 155)"/>
+    <line x1="990" y1="155" x2="1030" y2="155"/><line x1="1130" y1="155" x2="1170" y2="155"/>
+  </g>
+  <rect x="0" y="0" width="{w}" height="{h}" rx="16" fill="none" stroke="{LINE}" stroke-width="2"/>
+  <rect x="12" y="12" width="{w-24}" height="{h-24}" rx="10" fill="none" stroke="{LINE}"/>
 </g>
 <g class="a1">
-  <text x="70" y="78" class="m" font-size="14" font-weight="700" fill="{CRIMSON}" letter-spacing="4">PORTAFOLIO · GITHUB</text>
+  <text x="70" y="82" class="m" font-size="13" font-weight="700" fill="{MUTED}" letter-spacing="4">PORTAFOLIO · GITHUB</text>
 </g>
 <g class="a2">
-  <text x="66" y="162" class="b" font-size="88" fill="{BONE}" letter-spacing="2">{escape(name)}</text>
-  <rect x="70" y="182" width="180" height="4" fill="url(#ul)"/>
-  <text x="70" y="220" class="m" font-size="19" fill="{TEXT}">Ingeniería de Sistemas — Universidad El Bosque</text>
+  <text x="66" y="158" class="b" font-size="66" fill="{INK}">{escape(name)}</text>
+  <rect x="70" y="180" width="520" height="1" fill="{LINE}"/>
+  <rect x="70" y="179" width="70" height="3" fill="{SAGE}"/>
+  <text x="70" y="216" class="m" font-size="18" fill="{TEXT}">Ingeniería de Sistemas — Universidad El Bosque</text>
 </g>
 <g class="a3">
-  <text x="70" y="256" class="m" font-size="14" font-weight="700" fill="{CRIMSON_LIGHT}" letter-spacing="1.5">BACKEND  ·  FULL-STACK  ·  SEGURIDAD DE LA INFORMACIÓN  ·  SISTEMAS EMBEBIDOS</text>
-  <rect x="70" y="276" width="262" height="30" rx="15" fill="#1A0708" stroke="{BLOOD}"/>
-  <circle class="dot" cx="92" cy="291" r="5" fill="{CRIMSON_LIGHT}"/>
-  <text x="106" y="296" class="m" font-size="12.5" font-weight="700" fill="{BONE}" letter-spacing="1">DISPONIBLE PARA PRÁCTICA</text>
+  <text x="70" y="252" class="m" font-size="13" font-weight="700" fill="{SAGE_D}" letter-spacing="1.5">BACKEND  ·  FULL-STACK  ·  SEGURIDAD DE LA INFORMACIÓN  ·  SISTEMAS EMBEBIDOS</text>
+  <rect x="70" y="272" width="262" height="30" rx="15" fill="#E3E8DF" stroke="{SAGE}"/>
+  <circle class="dot" cx="92" cy="287" r="5" fill="{SAGE_D}"/>
+  <text x="106" y="292" class="m" font-size="12.5" font-weight="700" fill="{INK}" letter-spacing="1">DISPONIBLE PARA PRÁCTICA</text>
 </g>"""
     return svg_doc(w, h, body, extra_css=css, title="Juan Sebastián Pineda Santafé — Ingeniería de Sistemas")
 
 
 def section_svg(title):
     w, h = 880, 56
-    tw = text_width(title, 34)
+    tw = text_width(title, 28, file="CormorantGaramond-SemiBold.woff2", letter_spacing=3)
+    x1 = 44 + tw + 18
     body = f"""
-<defs><linearGradient id="ul" x1="0" x2="1"><stop offset="0" stop-color="{CRIMSON}"/><stop offset="1" stop-color="{CRIMSON}" stop-opacity="0"/></linearGradient></defs>
-<rect x="0" y="0" width="{w}" height="{h}" rx="10" fill="{BG}"/>
-<rect x="0" y="0" width="5" height="{h}" rx="2" fill="{CRIMSON}"/>
-<text x="24" y="40" class="b" font-size="34" fill="{BONE}">{escape(title)}</text>
-<rect x="{24 + tw + 16:.0f}" y="28" width="{w - (24 + tw + 16) - 24:.0f}" height="1.5" fill="url(#ul)"/>"""
-    return svg_doc(w, h, body, fonts=("bebas",), title=title)
+<rect x="0.5" y="0.5" width="{w-1}" height="{h-1}" rx="10" fill="{PAPER}" stroke="{LINE}"/>
+<rect x="22" y="24" width="9" height="9" fill="{INK}" opacity=".7" transform="rotate(45 26.5 28.5)"/>
+<text x="44" y="38" class="b" font-size="28" fill="{INK}" letter-spacing="3">{escape(title)}</text>
+<rect x="{x1:.0f}" y="28" width="{w - x1 - 44:.0f}" height="1" fill="{LINE}"/>
+<rect x="{w-36}" y="24.5" width="7" height="7" fill="none" stroke="{MUTED}" transform="rotate(45 {w-32.5} 28)"/>"""
+    return svg_doc(w, h, body, fonts=("serif",), title=title)
 
 
 def wrap(text, max_chars):
@@ -427,28 +437,30 @@ def wrap(text, max_chars):
     return lines + ([line] if line else [])
 
 
-def project_svg(category, title, desc, tags):
+def project_svg(category, title, desc, tags, accent=(SAGE, SAGE_D)):
+    light, dark = accent
     w, h = 430, 250
     fs = 12.5
     max_chars = int((w - 56) / (fs * 0.6))
     body = card_frame(w, h)
-    body += f'<clipPath id="cc"><rect x="0.5" y="0.5" width="{w-1}" height="{h-1}" rx="10"/></clipPath>'
-    body += f'<rect x="0" y="0" width="4" height="{h}" fill="{CRIMSON}" clip-path="url(#cc)"/>'
-    body += (f'<text x="28" y="38" class="m" font-size="11" font-weight="700" fill="{CRIMSON_LIGHT}" '
+    body += f'<rect x="7" y="7" width="4" height="{h-14}" rx="2" fill="{light}"/>'
+    body += (f'<text x="28" y="40" class="m" font-size="11" font-weight="700" fill="{dark}" '
              f'letter-spacing="1.5">{escape(category.upper())}</text>')
-    body += (f'<text x="{w-24}" y="38" class="m" font-size="10.5" fill="{MUTED}" '
+    body += (f'<text x="{w-24}" y="40" class="m" font-size="10.5" fill="{MUTED}" '
              f'text-anchor="end">VER REPOSITORIO →</text>')
-    body += f'<text x="28" y="80" class="b" font-size="36" fill="{BONE}">{escape(title)}</text>'
-    body += f'<rect x="28" y="92" width="90" height="2" fill="url(#ln)"/>'
+    body += f'<text x="28" y="80" class="b" font-size="31" fill="{INK}">{escape(title)}</text>'
+    body += f'<rect x="28" y="92" width="{w-56}" height="1" fill="{LINE}"/>'
+    body += f'<rect x="28" y="91" width="46" height="3" fill="{light}"/>'
     for i, line in enumerate(wrap(desc, max_chars)[:5]):
         body += f'<text x="28" y="{120 + i*19}" class="m" font-size="{fs}" fill="{TEXT}">{escape(line)}</text>'
-    x, y = 28, h - 38
+    x, y = 28, h - 40
     for t in tags:
         tw = len(t) * 6.6 + 20
         if x + tw > w - 24:
             break
-        body += f'<rect x="{x}" y="{y}" width="{tw:.0f}" height="22" rx="11" fill="#1A0A0B" stroke="#5C0000"/>'
-        body += (f'<text x="{x + tw/2:.0f}" y="{y+15}" class="m" font-size="11" fill="#D4C5B0" '
+        body += (f'<rect x="{x}" y="{y}" width="{tw:.0f}" height="22" rx="11" fill="{light}" '
+                 f'fill-opacity=".3" stroke="{light}"/>')
+        body += (f'<text x="{x + tw/2:.0f}" y="{y+15}" class="m" font-size="11" fill="{INK}" '
                  f'text-anchor="middle">{escape(t)}</text>')
         x += tw + 8
     return svg_doc(w, h, body, title=f"{title}: {desc}")
@@ -456,25 +468,25 @@ def project_svg(category, title, desc, tags):
 
 PROJECTS = {
     "project-honeycomb.svg": (
-        "Motor de juego · NoCode", "HONEYCOMB ENGINE",
+        "Motor de juego · NoCode", "HoneyComb Engine",
         "Plataforma NoCode para crear niveles isométricos 2.5D. Editor de escritorio con drag & drop y "
         "motor nativo en C++17 + raylib con Z-sorting y colisiones, comunicados por un contrato JSON.",
-        ["C++17", "raylib", "Angular", "Electron", "CMake"]),
+        ["C++17", "raylib", "Angular", "Electron", "CMake"], (SAND, "#8A7A55")),
     "project-tienda.svg": (
-        "Full-stack · Backend", "TIENDA DS",
+        "Full-stack · Backend", "Tienda DS",
         "Sistema de gestión comercial con API REST en ASP.NET Core 8 por capas, bases de datos separadas "
         "por dominio, autenticación JWT + BCrypt, Docker Compose y CI/CD con GitHub Actions.",
-        ["C#", "EF Core", "MySQL", "Angular", "Docker"]),
+        ["C#", "EF Core", "MySQL", "Angular", "Docker"], (SKY, SKY_D)),
     "project-cifrado.svg": (
-        "Seguridad · Cloud", "CIFRADO Y AUTENTICACIÓN",
+        "Seguridad · Cloud", "Cifrado y Autenticación",
         "Criptoanálisis automático de César, Afín y Vigenère. Login con bcrypt, sesiones y protección "
         "contra fuerza bruta, desplegado en AWS EC2 con nginx y certificados TLS de Let's Encrypt.",
-        ["TypeScript", "Angular SSR", "Express", "AWS", "nginx"]),
+        ["TypeScript", "Angular SSR", "Express", "AWS", "nginx"], (LAVENDER, LAVENDER_D)),
     "project-dsl.svg": (
-        "Lenguajes · Reglas de negocio", "CREDITRULES DSL",
+        "Lenguajes · Reglas de negocio", "CreditRules DSL",
         "Lenguaje de dominio específico para evaluar solicitudes de crédito. Las reglas se modelan como "
         "un AST con evaluación interactiva, casos de prueba y exportación de los árboles a Graphviz.",
-        ["C#", ".NET", "AST", "Graphviz"]),
+        ["C#", ".NET", "AST", "Graphviz"], (ROSE, ROSE_D)),
 }
 
 SECTIONS = {
